@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <h1 class="titulo">Confirma os seguintes dados?</h1>
+    <br>
+
+    <div>
+        <div id="confirmacao">
+            
+            <main id="data"></main>
+
+            <div>
+                <input class="btn-confirmar" type="submit" value="Confirmar" onclick="enviarDados()">
+                <input class="btn-voltar" type="submit" value="Voltar para Formulário" onclick="voltarParaForm()">
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+<script>
+    // função que faz download de objeto JSON
+    function downloadObjectAsJson(exportObj) {
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(exportObj);
+        var downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "data.json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    }
+
+    const json = localStorage.getItem('form');
+    downloadObjectAsJson(json)
+
+    const obj = JSON.parse(json);
+
+    for (key in obj) {
+        const markup = `
+        <div>
+            <span><b>${key}</b> : ${obj[key]}</span>
+        </div>
+        `;
+        document.getElementById('data').innerHTML += markup;
+    }
+ </script>
+
+</html>
